@@ -3,23 +3,23 @@ const DefaultLayout = require("./layouts/default");
 
 class Edit extends React.Component {
     render() {
-        const log = this.props
+        const {log} = this.props
         return (
             <DefaultLayout title="Edit Page">
                 <form
-                    action={`/logs/${this.props.log._id}?_method=PUT`}
+                    action={`/logs/${log._id}?_method=PUT`}
                     method="POST"
                 >
                     Title:{" "}
-                    <input type="text" name="name" defaultValue={this.props.log.title} />
+                    <input type="text" name="title" defaultValue={log.title} />
                     <br />
 
                     Entry:{" "}
-                    <input type="text" name="log" defaultValue={this.props.log.entry} />
+                    <input type="text" name="entry" defaultValue={log.entry} />
                     <br />
-                    
+
                     Is Ship Broken:
-                    {this.props.log.shipIsBroken ? (
+                    {log.shipIsBroken ? (
                         <input type="checkbox" name="shipIsBroken" defaultChecked />
                     ) : (
                         <input type="checkbox" name="shipIsBroken" />
