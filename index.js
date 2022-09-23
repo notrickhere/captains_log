@@ -51,7 +51,36 @@ app.post('/logs', (req,res)=> {
     res.redirect('/logs')
 })
 // --------> Edit
+app.get("/logs/:id/edit", (req, res) => {
+    Log.findById(req.params.id, (err, foundLog) => {
+        //findLog
+        console.log(err)
+        if (!err) {
+            res.render("Edit", {
+                log: foundLog,
+                //pass in the foundLog so we can prefill the form
+            });
+        } else {
+            res.send({ msg: err.message });
+        }
+    });
+});
 // --------->Update || Put and Patch [U]
+app.put("/logs/:id", (req, res) => {
+    if (req.body.shipIsBroken === "on") {
+        req.body.shipIsBroken = true;
+    } else {
+        req.body.shipIsBroken = false;
+    }
+    Log.findByIdAndUpdate(req.params.id, req.body, (err, updatedLog) => {
+        console.log(err)
+        console.log(updatedLog);
+        res.redirect(`/logs/${req.params.id}`);
+    });
+});
+
+
+
 // ------>DELETE   [D]
 app.delete("/logs/:id", (req, res) => {
     Log.findByIdAndRemove(req.params.id, (err, data) => {
@@ -61,6 +90,28 @@ app.delete("/logs/:id", (req, res) => {
 
 
 // --------> SEEDS*
+app.get('/logs/seed', (req, res) => {
+    Log.create([
+        {
+            title: 'Black Beard 1',
+            entry: 'returned unscathed',
+            shipIsBroken: false
+         },
+         {
+            title: 'Battle of Almedia',
+            entry: 'enimies took a major hit from our surpise attack',
+            shipIsBroken: false
+         },
+         {
+            title: 'Loss of concordia',
+            entry: 'our black beard ship suffered a major hit',
+            shipIsBroken: true
+         }
+    ], (err, data) => {
+        res.redirect('/logs')
+    })
+})
+
 // --------->Show [R]
 app.get('/logs/:id', (req,res)=>{
     Log.findById(req.params.id, (err, foundLog)=>{

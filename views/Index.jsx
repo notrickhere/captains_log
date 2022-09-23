@@ -13,6 +13,11 @@ class Index extends React.Component {
                                 {/* eachLog */}
                                 <a href={`/logs/${log.id}`}>{log.title} </a>  
 
+                                {/* Edit */}
+                                <>
+                                <a href={`/logs/${log._id}/edit`}>Edit Log</a> 
+                                </>
+                                   
                                 {/* Delete */}
                                 <form
                                     action={`/logs/${log._id}?_method=DELETE`}
